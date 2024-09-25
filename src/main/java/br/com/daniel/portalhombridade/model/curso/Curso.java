@@ -46,5 +46,4 @@ public class Curso {
         this.status = StatusCurso.ABERTO;
         this.ativo = true;
     }
-
 }
