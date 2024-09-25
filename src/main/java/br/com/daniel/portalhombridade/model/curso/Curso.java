@@ -1,5 +1,7 @@
-package br.com.daniel.portalhombridade.model;
+package br.com.daniel.portalhombridade.model.curso;
 
+import br.com.daniel.portalhombridade.model.aluno.Aluno;
+import br.com.daniel.portalhombridade.model.professor.Professor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,8 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,31 +21,30 @@ public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID único do curso", example = "1")
     private Long id;
 
-    @Schema(description = "Nome do curso", example = "Homem ao máximo")
     private String nome;
 
-    @Schema(description = "Descrição do curso", example = "Curso para homens que desejam ser mais parecidos com Jesus")
     private String descricao;
 
-    @Schema(description = "Data de início do curso", example = "17/09/2024")
-    private LocalDate dataInicio;
-
-    @Schema(description = "Hora de início do curso", example = "19:00")
-    private LocalTime horaInicio;
-
-    @Schema(description = "Local do curso", example = "AD Matriz")
-    private String local;
-
     @ManyToOne
-    @Schema(description = "Professor do curso")
+    @JoinColumn(name = "professor_id")
     private Professor professor;
 
+    @OneToMany(mappedBy = "curso")
+    private List<Aluno> alunos;
+
     @Enumerated(EnumType.STRING)
-    @Schema(description = "Status atual do curso", example = "ATIVO")
     private StatusCurso status;
 
+    private boolean ativo;
+
+    public Curso(DadosCadastroCursoDTO dados) {
+        this.nome = dados.nome();
+        this.descricao = dados.descricao();
+        this.professor = Professor.builder().id(dados.professorId()).build();
+        this.status = StatusCurso.ABERTO;
+        this.ativo = true;
+    }
 
 }

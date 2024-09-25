@@ -1,2 +1,4 @@
-package br.com.daniel.portalhombridade.controller;public class ProfessorController {
+package br.com.daniel.portalhombridade.controller;
+
+public class ProfessorController {
 }

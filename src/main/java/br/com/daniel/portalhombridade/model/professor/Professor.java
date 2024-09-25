@@ -1,4 +1,4 @@
-package br.com.daniel.portalhombridade.model;
+package br.com.daniel.portalhombridade.model.professor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;

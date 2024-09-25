@@ -1,6 +1,5 @@
-package br.com.daniel.portalhombridade.repository;
+package br.com.daniel.portalhombridade.model.professor;
 
-import br.com.daniel.portalhombridade.model.Professor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {

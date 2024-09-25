@@ -1,11 +1,9 @@
-package br.com.daniel.portalhombridade.model;
+package br.com.daniel.portalhombridade.model.aluno;
 
 
+import br.com.daniel.portalhombridade.model.curso.Curso;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +28,8 @@ public class Aluno {
     @Schema(description = "Email do aluno", example = "maria.silva@exemplo.com")
     private String email;
 
-    @Schema(description = "Matrícula do aluno", example = "2023001")
-    private String matricula;
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
 }
 

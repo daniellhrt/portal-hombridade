@@ -1,2 +1,4 @@
-package br.com.daniel.portalhombridade.security;public class CustomUserDetailsService {
+package br.com.daniel.portalhombridade.security;
+
+public class CustomUserDetailsService {
 }

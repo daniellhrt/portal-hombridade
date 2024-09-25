@@ -1,4 +1,4 @@
-package br.com.daniel.portalhombridade.model;
+package br.com.daniel.portalhombridade.model.curso;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

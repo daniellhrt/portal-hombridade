@@ -1,2 +1,4 @@
-package br.com.daniel.portalhombridade.service;public class AlunoService {
+package br.com.daniel.portalhombridade.service;
+
+public class AlunoService {
 }
