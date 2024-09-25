@@ -50,7 +50,7 @@ public class CursoController {
     @Operation(summary = "Inicia um curso")
     public ResponseEntity iniciarCurso(@PathVariable Long id) {
         Curso curso = cursoService.iniciarCurso(id);
-        return ResponseEntity.ok(new DadosInicioCurso(curso));
+        return ResponseEntity.ok(new DadosInicioCursoDTO(curso));
     }
 
     @PutMapping("/{id}/encerrar")
