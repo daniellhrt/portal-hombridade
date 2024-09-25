@@ -57,7 +57,7 @@ public class CursoController {
     @Operation(summary = "Encerra um curso")
     public ResponseEntity encerrarCurso(@PathVariable Long id) {
         Curso curso = cursoService.encerrarCurso(id);
-        return ResponseEntity.ok(new DadosEncerramentoCurso(curso));
+        return ResponseEntity.ok(new DadosEncerramentoCursoDTO(curso));
     }
 
     @DeleteMapping("/{id}")

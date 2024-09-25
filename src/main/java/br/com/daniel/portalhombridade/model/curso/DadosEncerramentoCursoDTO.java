@@ -1,12 +1,12 @@
 package br.com.daniel.portalhombridade.model.curso;
 
-public record DadosEncerramentoCurso(
+public record DadosEncerramentoCursoDTO(
         Long id,
         String nome,
         String descricao,
         String status
 ) {
-    public DadosEncerramentoCurso(Curso curso) {
+    public DadosEncerramentoCursoDTO(Curso curso) {
         this(
                 curso.getId(),
                 curso.getNome(),
