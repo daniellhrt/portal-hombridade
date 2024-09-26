@@ -4,18 +4,19 @@ import br.com.daniel.portalhombridade.model.aluno.Aluno;
 import br.com.daniel.portalhombridade.model.professor.Professor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "alunos")
+@EqualsAndHashCode(exclude = "alunos")
 @Schema(description = "Representa um curso")
 public class Curso {
 
@@ -45,5 +46,13 @@ public class Curso {
         this.professor = Professor.builder().id(dados.professorId()).build();
         this.status = StatusCurso.ABERTO;
         this.ativo = true;
+    }
+
+    public void adicionarAluno(Aluno aluno) {
+        if (alunos == null) {
+            alunos = new ArrayList<>();
+        }
+        this.alunos.add(aluno);
+        aluno.setCurso(this);
     }
 }
