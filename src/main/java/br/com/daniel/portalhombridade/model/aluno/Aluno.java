@@ -14,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = "curso")
-@EqualsAndHashCode(exclude = "curso")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Schema(description = "Representa um aluno.")
 public class Aluno {
 

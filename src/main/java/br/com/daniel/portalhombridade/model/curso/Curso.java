@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = "alunos")
-@EqualsAndHashCode(exclude = "alunos")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Schema(description = "Representa um curso")
 public class Curso {
 
