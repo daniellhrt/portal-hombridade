@@ -28,6 +28,9 @@ public class Professor {
     @Schema(description = "Nome do professor", example = "Daniel")
     private String nome;
 
+    @Schema(description = "Telefone do aluno", example = "51 99999-9999")
+    private String telefone;
+
     @Schema(description = "Email do professor", example = "daniel.henrique@email.com ")
     private String email;
 

@@ -29,6 +29,9 @@ public class Aluno {
     @Schema(description = "Email do aluno", example = "maria.silva@exemplo.com")
     private String email;
 
+    @Schema(description = "Telefone do aluno", example = "51 99999-9999")
+    private String telefone;
+
     @ManyToOne
     @JoinColumn(name = "curso_id")
     @JsonIgnore // Evita recursão infinita no adicionar aluno no curso ao serializar para JSON
