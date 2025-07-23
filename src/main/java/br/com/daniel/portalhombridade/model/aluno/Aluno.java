@@ -20,16 +20,16 @@ public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID único do aluno", example = "1")
+    @Schema(description = "ID único do aluno")
     private Long id;
 
-    @Schema(description = "Nome completo do aluno", example = "Maria da Silva")
+    @Schema(description = "Nome completo do aluno")
     private String nome;
 
-    @Schema(description = "Email do aluno", example = "maria.silva@exemplo.com")
+    @Schema(description = "Email do aluno")
     private String email;
 
-    @Schema(description = "Telefone do aluno", example = "51 99999-9999")
+    @Schema(description = "Telefone do aluno")
     private String telefone;
 
     @ManyToOne

@@ -2,6 +2,7 @@ package br.com.daniel.portalhombridade.model.curso;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record DadosCadastroCursoDTO(
 
@@ -13,10 +14,8 @@ public record DadosCadastroCursoDTO(
         @Schema(description = "Descrição do curso", example = "Curso para homens que desejam ser mais parecidos com Jesus")
         String descricao,
 
-        @NotBlank(message = "ID do professor é obrigatória")
-
+        @NotNull(message = "ID do professor é obrigatório")
         @Schema(description = "ID do professor responsável", example = "1")
         Long professorId
-
 ) {
 }

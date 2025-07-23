@@ -1,0 +1,5 @@
+ALTER TABLE curso
+DROP CONSTRAINT curso_chk_1;
+
+ALTER TABLE curso
+ADD CONSTRAINT curso_chk_1 CHECK (status IN ('ABERTO', 'CONCLUIDO', 'EM_ANDAMENTO'));

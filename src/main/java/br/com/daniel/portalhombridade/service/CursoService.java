@@ -5,6 +5,7 @@ import br.com.daniel.portalhombridade.model.aluno.AlunoRepository;
 import br.com.daniel.portalhombridade.model.curso.*;
 import br.com.daniel.portalhombridade.model.professor.Professor;
 import br.com.daniel.portalhombridade.model.professor.ProfessorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,9 @@ public class CursoService {
     private final ProfessorRepository professorRepository;
     private final AlunoRepository alunoRepository;
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     public Curso criarCurso(DadosCadastroCursoDTO dados) {
         Professor professor = professorRepository
                 .findById(dados.professorId())
@@ -30,26 +33,38 @@ public class CursoService {
         return cursoRepository.save(curso);
     }
 
+    //************************************************************
+    //************************************************************
+
     public Curso cadastrarAluno(Long idCurso, Long idAluno) {
         Curso curso = cursoRepository
                 .findById(idCurso)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
         Aluno aluno = alunoRepository
                 .findById(idAluno)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
+
+        if (curso.getAlunos() != null && curso.getAlunos().stream().allMatch(
+                a -> a.getId().equals(idAluno))){
+            throw new IllegalArgumentException("Aluno já está matriculado neste curso");
+        }
 
         curso.adicionarAluno(aluno);
         return cursoRepository.save(curso);
     }
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     public Page<DadosListagemCursoDTO> listarTodosCursos(Pageable paginacao) {
         return cursoRepository.findAllByAtivoTrue(paginacao)
                 .map(DadosListagemCursoDTO::new);
     }
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     public Curso iniciarCurso(Long id) {
         Curso curso = cursoRepository
                 .findById(id)
@@ -59,7 +74,9 @@ public class CursoService {
         return cursoRepository.save(curso);
     }
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     public Curso encerrarCurso(Long id) {
         Curso curso = cursoRepository
                 .findById(id)

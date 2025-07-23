@@ -48,6 +48,7 @@ public class Curso {
         this.ativo = true;
     }
 
+    // Verifica se a lista alunos é null antes de adicionar um aluno.
     public void adicionarAluno(Aluno aluno) {
         if (alunos == null) {
             alunos = new ArrayList<>();

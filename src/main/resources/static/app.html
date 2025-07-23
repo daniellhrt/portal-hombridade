@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Hombridade - Testes API</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<nav class="main-menu">
+    <span class="logo">Portal Hombridade</span>
+</nav>
+<nav class="sidebar">
+    <div class="accordion">
+        <div class="accordion-item">
+            <button class="accordion-title" onclick="toggleAccordion('cursoMenu')">Curso</button>
+            <ul class="accordion-content" id="cursoMenu">
+                <li><a href="#" onclick="showSection('criarCurso')">Criar Curso</a></li>
+                <li><a href="#" onclick="showSection('listarCursos')">Listar Cursos</a></li>
+                <li><a href="#" onclick="showSection('iniciarCurso')">Iniciar Curso</a></li>
+                <li><a href="#" onclick="showSection('encerrarCurso')">Encerrar Curso</a></li>
+                <li><a href="#" onclick="showSection('deletarCurso')">Deletar Curso</a></li>
+                <li><a href="#" onclick="showSection('inscreverAluno')">Inscrever Aluno</a></li>
+            </ul>
+        </div>
+        <div class="accordion-item">
+            <button class="accordion-title" onclick="toggleAccordion('alunoMenu')">Aluno</button>
+            <ul class="accordion-content" id="alunoMenu">
+                <li><a href="#" onclick="showSection('criarAluno')">Criar Aluno</a></li>
+                <li><a href="#" onclick="showSection('listarAlunos')">Listar Alunos</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="content">
+    <!-- CURSO -->
+    <section id="criarCurso" class="section">
+        <h3>Criar Curso</h3>
+        <form id="formCriarCurso">
+            <input type="text" id="nomeCurso" placeholder="Nome do Curso" required>
+            <input type="text" id="descricaoCurso" placeholder="Descrição" required>
+            <input type="number" id="professorIdCurso" placeholder="ID do Professor" required>
+            <button type="submit">Criar</button>
+        </form>
+        <div class="feedback" id="feedbackCriarCurso"></div>
+    </section>
+    <section id="listarCursos" class="section">
+        <h3>Listar Cursos</h3>
+        <button onclick="listarCursos()">Atualizar Lista</button>
+        <div id="listaCursos"></div>
+    </section>
+    <section id="iniciarCurso" class="section">
+        <h3>Iniciar Curso</h3>
+        <form id="formIniciarCurso">
+            <input type="number" id="cursoIdIniciar" placeholder="ID do Curso" required>
+            <button type="submit">Iniciar</button>
+        </form>
+        <div class="feedback" id="feedbackIniciarCurso"></div>
+    </section>
+    <section id="encerrarCurso" class="section">
+        <h3>Encerrar Curso</h3>
+        <form id="formEncerrarCurso">
+            <input type="number" id="cursoIdEncerrar" placeholder="ID do Curso" required>
+            <button type="submit">Encerrar</button>
+        </form>
+        <div class="feedback" id="feedbackEncerrarCurso"></div>
+    </section>
+    <section id="deletarCurso" class="section">
+        <h3>Deletar Curso</h3>
+        <form id="formDeletarCurso">
+            <input type="number" id="cursoIdDeletar" placeholder="ID do Curso" required>
+            <button type="submit">Deletar</button>
+        </form>
+        <div class="feedback" id="feedbackDeletarCurso"></div>
+    </section>
+    <section id="inscreverAluno" class="section">
+        <h3>Inscrever Aluno em Curso</h3>
+        <form id="formInscreverAluno">
+            <input type="number" id="cursoIdInscrever" placeholder="ID do Curso" required>
+            <input type="number" id="alunoIdInscrever" placeholder="ID do Aluno" required>
+            <button type="submit">Inscrever</button>
+        </form>
+        <div class="feedback" id="feedbackInscreverAluno"></div>
+    </section>
+    <!-- ALUNO -->
+    <section id="criarAluno" class="section">
+        <h3>Criar Aluno</h3>
+        <form id="formCriarAluno">
+            <input type="text" id="nomeAluno" placeholder="Nome do Aluno" required>
+            <input type="email" id="emailAluno" placeholder="Email" required>
+            <input type="text" id="telefoneAluno" placeholder="Telefone (XX XXXXX-XXXX)" required>
+            <button type="submit">Criar</button>
+        </form>
+        <div class="feedback" id="feedbackCriarAluno"></div>
+    </section>
+    <section id="listarAlunos" class="section">
+        <h3>Listar Alunos</h3>
+        <button onclick="listarAlunos()">Atualizar Lista</button>
+        <div id="listaAlunos"></div>
+    </section>
+</main>
+<script>
+    function toggleAccordion(id) {
+        document.querySelectorAll('.accordion-content').forEach(el => {
+            if (el.id === id) {
+                el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        });
+    }
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+    }
+    window.onload = function() {
+        toggleAccordion('cursoMenu');
+        showSection('criarCurso');
+    };
+
+    // CRUD Curso
+    document.getElementById('formCriarCurso').onsubmit = async function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nomeCurso').value;
+        const descricao = document.getElementById('descricaoCurso').value;
+        const professorId = document.getElementById('professorIdCurso').value;
+        const res = await fetch('/api/cursos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, descricao, professorId })
+        });
+        document.getElementById('feedbackCriarCurso').textContent = res.ok ? 'Curso criado!' : 'Erro ao criar curso.';
+    };
+
+    async function listarCursos() {
+        const res = await fetch('/api/cursos?size=10');
+        const data = await res.json();
+        const lista = document.getElementById('listaCursos');
+        lista.innerHTML = '';
+        data.content.forEach(curso => {
+            const div = document.createElement('div');
+            div.className = 'curso-block';
+            div.innerHTML = `<strong>${curso.nome}</strong> - ${curso.descricao} <br>
+                Professor: ${curso.professor.nome} | Status: ${curso.status} <br>
+                Alunos: ${curso.alunos.map(a => a.nome).join(', ')}`;
+            lista.appendChild(div);
+        });
+    }
+
+    document.getElementById('formIniciarCurso').onsubmit = async function(e) {
+        e.preventDefault();
+        const cursoId = document.getElementById('cursoIdIniciar').value;
+        const res = await fetch(`/api/cursos/${cursoId}/iniciar`, { method: 'PUT' });
+        document.getElementById('feedbackIniciarCurso').textContent = res.ok ? 'Curso iniciado!' : 'Erro ao iniciar curso.';
+    };
+
+    document.getElementById('formEncerrarCurso').onsubmit = async function(e) {
+        e.preventDefault();
+        const cursoId = document.getElementById('cursoIdEncerrar').value;
+        const res = await fetch(`/api/cursos/${cursoId}/encerrar`, { method: 'PUT' });
+        document.getElementById('feedbackEncerrarCurso').textContent = res.ok ? 'Curso encerrado!' : 'Erro ao encerrar curso.';
+    };
+
+    document.getElementById('formDeletarCurso').onsubmit = async function(e) {
+        e.preventDefault();
+        const cursoId = document.getElementById('cursoIdDeletar').value;
+        const res = await fetch(`/api/cursos/${cursoId}`, { method: 'DELETE' });
+        document.getElementById('feedbackDeletarCurso').textContent = res.ok ? 'Curso deletado!' : 'Erro ao deletar curso.';
+    };
+
+    document.getElementById('formInscreverAluno').onsubmit = async function(e) {
+        e.preventDefault();
+        const cursoId = document.getElementById('cursoIdInscrever').value;
+        const alunoId = document.getElementById('alunoIdInscrever').value;
+        const res = await fetch(`/api/cursos/${cursoId}/alunos/${alunoId}`, { method: 'PUT' });
+        document.getElementById('feedbackInscreverAluno').textContent = res.ok ? 'Aluno inscrito!' : 'Erro ao inscrever aluno.';
+    };
+
+    // CRUD Aluno
+    document.getElementById('formCriarAluno').onsubmit = async function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nomeAluno').value;
+        const email = document.getElementById('emailAluno').value;
+        const telefone = document.getElementById('telefoneAluno').value;
+        const res = await fetch('/api/alunos?cursoId=1', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, telefone })
+        });
+        document.getElementById('feedbackCriarAluno').textContent = res.ok ? 'Aluno criado!' : 'Erro ao criar aluno.';
+    };
+
+    async function listarAlunos() {
+        const res = await fetch('/api/alunos?size=10');
+        const data = await res.json();
+        const lista = document.getElementById('listaAlunos');
+        lista.innerHTML = '';
+        data.content.forEach(aluno => {
+            const div = document.createElement('div');
+            div.className = 'aluno-block';
+            div.innerHTML = `<strong>${aluno.nome}</strong> - ${aluno.email} <br> Telefone: ${aluno.telefone}`;
+            lista.appendChild(div);
+        });
+    }
+</script>
+</body>
+</html>

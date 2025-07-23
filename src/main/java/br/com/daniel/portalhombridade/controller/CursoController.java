@@ -22,36 +22,47 @@ public class CursoController {
 
     private final CursoService cursoService;
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     @PostMapping
     @Transactional
     @Operation(summary = "Criar um novo curso")
     public ResponseEntity<DadosAtualizadoDetalhadoCursoDTO> criarCurso(
-            @RequestBody DadosCadastroCursoDTO dados, UriComponentsBuilder uriBuider) {
+            @RequestBody DadosCadastroCursoDTO dados, UriComponentsBuilder uriBuilder) {
         Curso curso = cursoService.criarCurso(dados);
-        var uri = uriBuider.path("/cursos/{id}")
+        var uri = uriBuilder.path("/cursos/{id}")
                 .buildAndExpand(curso.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(new DadosAtualizadoDetalhadoCursoDTO(curso));
     }
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     @GetMapping
     @Operation(summary = "Listar todos os cursos")
-    public ResponseEntity<Page<DadosListagemCursoDTO>> listar(@PageableDefault
-                                                                      (size = 5, sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemCursoDTO>> listar(
+            @PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
+
         var page = cursoService.listarTodosCursos(paginacao);
         return ResponseEntity.ok(page);
     }
 
+    //************************************************************
+    //************************************************************
+
     @PutMapping("/{idCurso}/alunos/{idAluno}")
     @Operation(summary = "Adiciona um aluno a um curso")
-    public ResponseEntity<DadosAtualizadoDetalhadoCursoDTO> adicionarAluno(@PathVariable Long idCurso, @PathVariable Long idAluno) {
+    public ResponseEntity<DadosAtualizadoDetalhadoCursoDTO> adicionarAluno(@PathVariable Long idCurso,
+                                                                           @PathVariable Long idAluno) {
         Curso curso = cursoService.cadastrarAluno(idCurso, idAluno);
         return ResponseEntity.ok(new DadosAtualizadoDetalhadoCursoDTO(curso));
     }
 
-    //**************************** REFATORADO ********************************
+    //************************************************************
+    //************************************************************
+
     @PutMapping("/{id}/iniciar")
     @Transactional
     @Operation(summary = "Inicia um curso")
@@ -60,6 +71,9 @@ public class CursoController {
         return ResponseEntity.ok(new DadosInicioCursoDTO(curso));
     }
 
+    //************************************************************
+    //************************************************************
+
     @PutMapping("/{id}/encerrar")
     @Operation(summary = "Encerra um curso")
     public ResponseEntity<DadosEncerramentoCursoDTO> encerrarCurso(@PathVariable Long id) {
@@ -67,12 +81,14 @@ public class CursoController {
         return ResponseEntity.ok(new DadosEncerramentoCursoDTO(curso));
     }
 
+    //************************************************************
+    //************************************************************
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleta um curso")
     public ResponseEntity<Void> deletarCurso(@PathVariable Long id) {
         cursoService.deletarCurso(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }
